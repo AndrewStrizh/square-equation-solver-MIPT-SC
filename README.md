@@ -1,2 +1,3 @@
 # square-equation-solver-MIPT-SC
-square equation solver
+simple square equation solver written in c
+~MIPT summer school 2023~
