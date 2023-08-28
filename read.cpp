@@ -12,7 +12,6 @@ int read_double(double *value, const char *prompt, const char param)
     assert(value);
     assert(prompt);
     assert(isfinite (*value));
-    assert(!isnan (*value));
 
     size_t length = 0;
     char *end = NULL;
@@ -20,36 +19,41 @@ int read_double(double *value, const char *prompt, const char param)
 
     printf("%s%c: ", prompt, param);
 
+    /* Read to buffer */
     if (!fgets(buf, sizeof(buf), stdin))
         return 1;
 
+    /* Deleting a newline character */
     length = strlen(buf);
-
     if (buf[length - 1] == '\n')
     {
         buf[--length] = '\0';
+
+        /* Conversion from string to number */
         errno = 0;
         *value = strtod(buf, &end);
 
+        /* Error handling */
         if (length == 0)
         {
-            fprintf(stderr,TEXT_COLOR(YELLOW_TEXT, "Error: An empty string was entered.\n"));
+            fprintf(stderr,SMALL_ERROR_COLOR("Error: An empty string was entered.\n"));
             return 1;
         }
         if (errno != 0 || *end != '\0')
         {
-            fprintf(stderr, TEXT_COLOR(YELLOW_TEXT, "Error: Invalid character.\n"));
-            fprintf(stderr, TEXT_COLOR(YELLOW_TEXT, "\t%s\n"), buf);
-            fprintf(stderr, TEXT_COLOR(YELLOW_TEXT, "\t%*c\n"), (int)(end - buf) + 1, '^');
+            fprintf(stderr, SMALL_ERROR_COLOR("Error: Invalid character.\n"));
+            fprintf(stderr, SMALL_ERROR_COLOR("\t%s\n"), buf);
+            fprintf(stderr, SMALL_ERROR_COLOR("\t%*c\n"), (int)(end - buf) + 1, '^');
             return 1;
         }
     }
     else
     {
+        /* The line is not fully read, skip the rest of the line */
         scanf("%*[^\n]");
         scanf("%*c");
-        fprintf(stderr, TEXT_COLOR(YELLOW_TEXT, "Error: do not enter more than %d character(s).\n"), BUFFER_SIZE - 2);
-        // BUFFER_SIZE - 2 because the buffer also stores the newline character and the null byte
+        fprintf(stderr, SMALL_ERROR_COLOR("Error: do not enter more than %d character(s).\n"), BUFFER_SIZE - 2);
+        /* BUFFER_SIZE - 2 because the buffer also stores the newline character and the null byte */
         return 1;
     }
     return 0;
@@ -60,7 +64,6 @@ int do_read_double(double *value, const char param)
 {
     assert(value);
     assert(isfinite (*value));
-    assert(!isnan (*value));
 
     int status = 0;
     do
@@ -68,25 +71,19 @@ int do_read_double(double *value, const char param)
         status = read_double(value, "Enter the parameter ", param);
         if (status != 0)
         {
-            printf(TEXT_COLOR(YELLOW_TEXT, "Please try again.\n"));
+            printf(SMALL_ERROR_COLOR("Please try again.\n"));
         }
     } while (status != 0);
     return 0;
 }
 
 
-int init_params(struct st_params *params)
+int init_params(struct Params *params)
 {
     assert(params);
-    assert(&(params -> a));
     assert(isfinite (params -> a));
-    assert(!isnan (params -> a));
-    assert(&(params -> b));
     assert(isfinite (params -> b));
-    assert(!isnan (params -> b));
-    assert(&(params -> c));
     assert(isfinite (params -> c));
-    assert(!isnan (params -> c));
 
     do_read_double(&(params -> a), 'a');
     do_read_double(&(params -> b), 'b');
