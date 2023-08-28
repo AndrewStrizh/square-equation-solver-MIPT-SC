@@ -9,15 +9,14 @@
 
 int read_double(double *value, const char *prompt, const char param)
 {
-    size_t length = 0;
-    char *end = NULL;
-    char buf[BUFFER_SIZE] = "";
-
     assert(value);
     assert(prompt);
     assert(isfinite (*value));
     assert(!isnan (*value));
 
+    size_t length = 0;
+    char *end = NULL;
+    char buf[BUFFER_SIZE] = "";
 
     printf("%s%c: ", prompt, param);
 
@@ -50,7 +49,7 @@ int read_double(double *value, const char *prompt, const char param)
         scanf("%*[^\n]");
         scanf("%*c");
         fprintf(stderr, TEXT_COLOR(YELLOW_TEXT, "Error: do not enter more than %d character(s).\n"), BUFFER_SIZE - 2);
-        /// BUFFER_SIZE - 2 because the buffer also stores the newline character and the null byte
+        // BUFFER_SIZE - 2 because the buffer also stores the newline character and the null byte
         return 1;
     }
     return 0;
@@ -78,12 +77,20 @@ int do_read_double(double *value, const char param)
 
 int init_params(struct st_params *params)
 {
+    assert(params);
+    assert(&(params -> a));
+    assert(isfinite (params -> a));
+    assert(!isnan (params -> a));
+    assert(&(params -> b));
+    assert(isfinite (params -> b));
+    assert(!isnan (params -> b));
+    assert(&(params -> c));
+    assert(isfinite (params -> c));
+    assert(!isnan (params -> c));
 
-    /// TODO assert for structure fields
-
-    do_read_double(&(params->a), 'a');
-    do_read_double(&(params->b), 'b');
-    do_read_double(&(params->c), 'c');
+    do_read_double(&(params -> a), 'a');
+    do_read_double(&(params -> b), 'b');
+    do_read_double(&(params -> c), 'c');
     printf("--> You have entered: a = %lf; b = %lf; c = %lf\n", params->a, params->b, params->c);
     return 0;
 }
