@@ -5,21 +5,22 @@
 #include <math.h>
 #include <stdlib.h>
 #include "ses.h"
-
+#include <unistd.h>
 
 int main(int argc, char *argv[])
 {
-    printf("Square equation solver\n"
-           "# (c) STA, 2023\n\n");
-
-    if(argc>1 && !strcmp(argv[1], "tests"))
-        all_tests();
+    if (argc>2 && !strcmp(argv[1], "tests") && (access(argv[2], F_OK) == 0))
+        all_tests(argv[2]);
+    else if (argc > 2)
+        printf("No such file in directory\n");
     else
     {
-        struct st_params params = {0, 0, 0};
-        struct st_roots roots = {0, 0};
+        printf("Square equation solver\n"
+                "# (c) STA, 2023\n\n");
+        struct Params params = {0, 0, 0};
+        struct Roots roots = {0, 0};
 
         init_params(&params);
-        solver(params, &roots);
+        solve(params, &roots);
     };
 }
