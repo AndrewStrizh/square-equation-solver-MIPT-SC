@@ -15,18 +15,16 @@
 #define RESET_COLOR "\x1b[0m"
 
 
+#define ERROR_COLOR(str) RED_TEXT str RESET_COLOR
 
-#define ERROR_COLOR(str)  \
-    RED_TEXT str RESET_COLOR
+#define CORRECT_COLOR(str) GREEN_TEXT str RESET_COLOR
 
-#define CORRECT_COLOR(str)  \
-    GREEN_TEXT str RESET_COLOR
-
-#define SMALL_ERROR_COLOR(str)  \
-    YELLOW_TEXT str RESET_COLOR
+#define SMALL_ERROR_COLOR(str) YELLOW_TEXT str RESET_COLOR
 
 
-const int BUFFER_SIZE = 102;/**< The size of the buffer storing the characters entered by the user is not more than 100 + \\n + \0 */
+const int BUFFER_SIZE
+    = 102; /**< The size of the buffer storing the characters entered by the user is not more than
+              100 + \\n + \0 */
 
 
 /**
@@ -37,23 +35,24 @@ const int BUFFER_SIZE = 102;/**< The size of the buffer storing the characters e
  *\param param - parameter name (a,b,c)
  *\return in case of an error, returns 1
  */
-int read_double(double *value, const char *prompt, const char param);
+int read_double(double* value, const char* prompt, const char param);
 
 
 /**
- *Wrapper for the read_double function, which gives the user the opportunity to re-enter the parameter
+ *Wrapper for the read_double function, which gives the user the opportunity to re-enter the
+ *parameter
  *in case of an error
  *\param *value - the value of the parameter entered by the user
  *\param param - parameter name (a,b,c)
  */
-int do_read_double(double *value, const char param);
+int do_read_double(double* value, const char param);
 
 
 /**
  *Function initializing the parameters of a quadratic equation
  *\param *params - structure storing the parameters of a quadratic equation
  */
-int init_params(struct Params *params);
+int init_params(struct Params* params);
 
 
 /**
