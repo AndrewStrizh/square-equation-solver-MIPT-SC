@@ -6,15 +6,14 @@
 #include <stdlib.h>
 #include "read.h"
 
-
-int read_double(double *value, const char *prompt, const char param)
+int read_double(double* value, const char* prompt, const char param)
 {
     assert(value);
     assert(prompt);
-    assert(isfinite (*value));
+    assert(isfinite(*value));
 
     size_t length = 0;
-    char *end = NULL;
+    char* end = NULL;
     char buf[BUFFER_SIZE] = "";
 
     printf("%s%c: ", prompt, param);
@@ -36,7 +35,7 @@ int read_double(double *value, const char *prompt, const char param)
         /* Error handling */
         if (length == 0)
         {
-            fprintf(stderr,SMALL_ERROR_COLOR("Error: An empty string was entered.\n"));
+            fprintf(stderr, SMALL_ERROR_COLOR("Error: An empty string was entered.\n"));
             return 1;
         }
         if (errno != 0 || *end != '\0')
@@ -52,7 +51,8 @@ int read_double(double *value, const char *prompt, const char param)
         /* The line is not fully read, skip the rest of the line */
         scanf("%*[^\n]");
         scanf("%*c");
-        fprintf(stderr, SMALL_ERROR_COLOR("Error: do not enter more than %d character(s).\n"), BUFFER_SIZE - 2);
+        fprintf(stderr, SMALL_ERROR_COLOR("Error: do not enter more than %d character(s).\n"),
+            BUFFER_SIZE - 2);
         /* BUFFER_SIZE - 2 because the buffer also stores the newline character and the null byte */
         return 1;
     }
@@ -60,10 +60,10 @@ int read_double(double *value, const char *prompt, const char param)
 }
 
 
-int do_read_double(double *value, const char param)
+int do_read_double(double* value, const char param)
 {
     assert(value);
-    assert(isfinite (*value));
+    assert(isfinite(*value));
 
     int status = 0;
     do
@@ -78,16 +78,16 @@ int do_read_double(double *value, const char param)
 }
 
 
-int init_params(struct Params *params)
+int init_params(struct Params* params)
 {
     assert(params);
-    assert(isfinite (params -> a));
-    assert(isfinite (params -> b));
-    assert(isfinite (params -> c));
+    assert(isfinite(params->a));
+    assert(isfinite(params->b));
+    assert(isfinite(params->c));
 
-    do_read_double(&(params -> a), 'a');
-    do_read_double(&(params -> b), 'b');
-    do_read_double(&(params -> c), 'c');
+    do_read_double(&(params->a), 'a');
+    do_read_double(&(params->b), 'b');
+    do_read_double(&(params->c), 'c');
     printf("--> You have entered: a = %lf; b = %lf; c = %lf\n", params->a, params->b, params->c);
     return 0;
 }
