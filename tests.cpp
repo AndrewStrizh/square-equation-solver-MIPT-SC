@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "tests.h"
 
+
 int equality_double_test(const double x, const double y)
 {
     assert(isfinite (x));
@@ -16,6 +17,19 @@ int equality_double_test(const double x, const double y)
 
 int run_test_solve_square (const struct test_solve_square t, int *correct_answers, int *all_answers)
 {
+    assert(correct_answers);
+    assert(all_answers);
+    assert(isfinite (t.p.a));
+    assert(isfinite (t.p.b));
+    assert(isfinite (t.p.c));
+    assert(!isnan (t.p.a));
+    assert(!isnan (t.p.b));
+    assert(!isnan (t.p.c));
+    assert(isfinite (t.r.x1));
+    assert(isfinite (t.r.x2));
+    assert(!isnan (t.r.x1));
+    assert(!isnan (t.r.x2));
+
     if (test_solver(t) == 0)
     {
           printf(TEXT_COLOR(GREEN_TEXT, "test passed\n"));
@@ -27,11 +41,22 @@ int run_test_solve_square (const struct test_solve_square t, int *correct_answer
 
 int test_solver(const struct test_solve_square t)
 {
-    struct st_roots x;
+    assert(isfinite (t.p.a));
+    assert(isfinite (t.p.b));
+    assert(isfinite (t.p.c));
+    assert(!isnan (t.p.a));
+    assert(!isnan (t.p.b));
+    assert(!isnan (t.p.c));
+    assert(isfinite (t.r.x1));
+    assert(isfinite (t.r.x2));
+    assert(!isnan (t.r.x1));
+    assert(!isnan (t.r.x2));
+
+    struct st_roots x = {};
     int nRoots = solve_square(t.p, &x);
-    if (!equality_double_test(x.x1, t.r.x1) ||
-        !equality_double_test(x.x2, t.r.x2) ||
-        t.nRootsRef != nRoots)
+    if (t.nRootsRef != nRoots               ||
+        !equality_double_test(x.x1, t.r.x1) ||
+        !equality_double_test(x.x2, t.r.x2))
     {
         printf(TEXT_COLOR(RED_TEXT,"FAILURE: a=%lf; b = %lf; c = %lf\n"), t.p.a, t.p.b, t.p.c);
         return 1;
