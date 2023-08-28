@@ -16,9 +16,15 @@
 
 
 
-///Macro for changing text color
-#define TEXT_COLOR(color, str)      \
-    color str RESET_COLOR
+#define ERROR_COLOR(str)  \
+    RED_TEXT str RESET_COLOR
+
+#define CORRECT_COLOR(str)  \
+    GREEN_TEXT str RESET_COLOR
+
+#define SMALL_ERROR_COLOR(str)  \
+    YELLOW_TEXT str RESET_COLOR
+
 
 const int BUFFER_SIZE = 102;/**< The size of the buffer storing the characters entered by the user is not more than 100 + \\n + \0 */
 
@@ -47,13 +53,13 @@ int do_read_double(double *value, const char param);
  *Function initializing the parameters of a quadratic equation
  *\param *params - structure storing the parameters of a quadratic equation
  */
-int init_params(struct st_params *params);
+int init_params(struct Params *params);
 
 
 /**
  *\brief This structure stores the parameters of the quadratic equation
  */
-struct st_params
+struct Params
 {
     double a, b, c;
 };
