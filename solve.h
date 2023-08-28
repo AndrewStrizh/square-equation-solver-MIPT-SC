@@ -8,9 +8,15 @@
 #define HEADER_H_INCLUDED
 
 
-///Macro for changing text color
-#define TEXT_COLOR(color, str)      \
-    color str RESET_COLOR
+#define ERROR_COLOR(str)  \
+    RED_TEXT str RESET_COLOR
+
+#define CORRECT_COLOR(str)  \
+    GREEN_TEXT str RESET_COLOR
+
+#define SMALL_ERROR_COLOR(str)  \
+    YELLOW_TEXT str RESET_COLOR
+
 
 #define RED_TEXT "\x1b[31m"
 #define GREEN_TEXT "\x1b[32m"
@@ -38,7 +44,7 @@ enum ROOT_KEYS
  *\param p - structure stores the parameters of the quadratic equation
  *\param *r - structure storing the values of the roots of a quadratic equation
  */
-ROOT_KEYS solve_square (const struct st_params p, struct st_roots *r);
+ROOT_KEYS solve_square (const struct Params p, struct st_roots *r);
 
 
 /**
@@ -46,14 +52,14 @@ ROOT_KEYS solve_square (const struct st_params p, struct st_roots *r);
  *\param p - structure stores the parameters of the quadratic equation
  *\param *r - structure storing the values of the roots of a quadratic equation
  */
-ROOT_KEYS solve_linear(const struct st_params p, struct st_roots *r);
+ROOT_KEYS solve_linear(const struct Params p, struct Roots *r);
 
 
 /**
  *Function for comparing two numbers of type double
  *\param x,y - compared numbers
  */
-int equality_double(const double x, const double y);
+int equate_double(const double x, const double y);
 
 
 /**
@@ -61,13 +67,13 @@ int equality_double(const double x, const double y);
  *\param *params - structure storing the parameters of a quadratic equation
  *\param *roots - structure storing the values of the roots of a quadratic equation
  */
-int solver(const struct st_params params, struct st_roots *roots);
+int solve(const struct Params params, struct Roots *roots);
 
 
 /**
  *\brief This structure stores the parameters of the quadratic equation
  */
-struct st_params
+struct Params
 {
     double a, b, c;
 };
@@ -76,7 +82,7 @@ struct st_params
 /**
  *\brief This structure storing the values of the roots of a quadratic equation
  */
-struct st_roots
+struct Roots
 {
     double x1, x2;
 };
