@@ -6,7 +6,7 @@
 
 #ifndef HEADER_H_INCLUDED
 #define HEADER_H_INCLUDED
-const int MAXSIZE = 100;
+
 
 /**
  *\enum
@@ -25,7 +25,7 @@ enum ROOT_KEYS
  *Function initializing the parameters of a quadratic equation
  *\param *params - structure storing the parameters of a quadratic equation
  */
-int init_params(struct st_params *params);
+int init_params(struct Params *params);
 
 
 /**
@@ -33,19 +33,20 @@ int init_params(struct st_params *params);
  *\param *params - structure storing the parameters of a quadratic equation
  *\param *roots - structure storing the values of the roots of a quadratic equation
  */
-int solver(const struct st_params params, struct st_roots *roots);
+int solve(const struct Params params, struct Roots *roots);
 
 
 /**
  *Function that starts the execution of tests
+ *\param *filename - the address of the file, name entered by the user
  */
-int all_tests(void);
+int all_tests(const char* filename);
 
 
 /**
  *\brief This structure stores the parameters of the quadratic equation
  */
-struct st_params
+struct Params
 {
     double a, b, c;
 };
@@ -54,7 +55,7 @@ struct st_params
 /**
  *\brief This structure storing the values of the roots of a quadratic equation
  */
-struct st_roots
+struct Roots
 {
     double x1, x2;
 };
@@ -65,8 +66,8 @@ struct st_roots
  */
 struct test_solve_square
 {
-    struct st_params p;
-    struct st_roots r;
+    struct Params p;
+    struct Roots r;
     int nRootsRef;
 };
 
