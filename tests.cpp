@@ -4,78 +4,70 @@
 #include "tests.h"
 
 
-int equality_double_test(const double x, const double y)
+int equate_double_test(const double x, const double y)
 {
     assert(isfinite (x));
     assert(isfinite (y));
-    assert(!isnan (x));
-    assert(!isnan (y));
 
     return fabs(x - y) < EPS_TEST;
 }
 
 
-int run_test_solve_square (const struct test_solve_square t, int *correct_answers, int *all_answers)
+int run_test_solve_square (const struct test_solve_square t, int *correct_answers, int *all_answers, const char* filename)
 {
     assert(correct_answers);
     assert(all_answers);
     assert(isfinite (t.p.a));
     assert(isfinite (t.p.b));
     assert(isfinite (t.p.c));
-    assert(!isnan (t.p.a));
-    assert(!isnan (t.p.b));
-    assert(!isnan (t.p.c));
     assert(isfinite (t.r.x1));
     assert(isfinite (t.r.x2));
-    assert(!isnan (t.r.x1));
-    assert(!isnan (t.r.x2));
 
-    if (test_solver(t) == 0)
+    if (test_solve(t, filename, all_answers) == 0)
     {
-          printf(TEXT_COLOR(GREEN_TEXT, "test passed\n"));
+          printf(CORRECT_COLOR("test passed\n"));
           ++(*correct_answers);
     }
     ++(*all_answers);
     return 0;
 }
 
-int test_solver(const struct test_solve_square t)
+int test_solve(const struct test_solve_square t, const char* filename, int *all_answers)
 {
     assert(isfinite (t.p.a));
     assert(isfinite (t.p.b));
     assert(isfinite (t.p.c));
-    assert(!isnan (t.p.a));
-    assert(!isnan (t.p.b));
-    assert(!isnan (t.p.c));
     assert(isfinite (t.r.x1));
     assert(isfinite (t.r.x2));
-    assert(!isnan (t.r.x1));
-    assert(!isnan (t.r.x2));
-
-    struct st_roots x = {};
+    struct Roots x = {};
     int nRoots = solve_square(t.p, &x);
-    if (t.nRootsRef != nRoots               ||
-        !equality_double_test(x.x1, t.r.x1) ||
-        !equality_double_test(x.x2, t.r.x2))
+    if (t.nRootsRef != nRoots             ||
+        !equate_double_test(x.x1, t.r.x1) ||
+        !equate_double_test(x.x2, t.r.x2))
     {
-        printf(TEXT_COLOR(RED_TEXT,"FAILURE: a=%lf; b = %lf; c = %lf\n"), t.p.a, t.p.b, t.p.c);
+        printf(ERROR_COLOR("FAILURE TEST %d: a=%lf; b = %lf; c = %lf\n"), *all_answers, t.p.a, t.p.b, t.p.c);
+        FILE *tmp;
+        tmp = fopen(filename, "a");
+        fprintf(tmp, "FAILURE TEST №%d: a=%lf; b = %lf; c = %lf\nright x1 = %lf\tright x2 = %lf\tright number of roots = %d\nprog x1 = %lf\tprog x2 = %lf\tprog number of roots = %d\n\n",
+                *all_answers, t.p.a, t.p.b, t.p.c,t.r.x1,t.r.x2,t.nRootsRef, x.x1,x.x2,nRoots);
+        fclose(tmp);
         return 1;
     }
     else
         return 0;
 }
 
-int all_tests(void)
+int all_tests(const char* filename)
 {
     BEGIN_TEST;
-    MAC_TEST_SOLVE_SQUARE(0, 1, 0, 0, 0, 1);
-    MAC_TEST_SOLVE_SQUARE(1, 0, 0, 0, 0, 1);
-    MAC_TEST_SOLVE_SQUARE(0, 0, 1, 0, 0, 0);
-    MAC_TEST_SOLVE_SQUARE(-1, 0, 0, 0, 0, 1);
-    MAC_TEST_SOLVE_SQUARE(0, -1, 0, 0, 0, 1);
-    MAC_TEST_SOLVE_SQUARE(1, 2, -3, -3, 1, 2);
-    MAC_TEST_SOLVE_SQUARE(1, 2, -4, -3.2361, 1.2361, 2);
-    //MAC_TEST_SOLVE_SQUARE(1, 0, -16, -4, 4, 1);
+    TEST_SOLVE_SQUARE(10000, 1, 0, 0, 0, 1);
+    TEST_SOLVE_SQUARE(1, 0, 0, 0, 0, 1);
+    TEST_SOLVE_SQUARE(0, 0, 1, 0, 0, 0);
+    TEST_SOLVE_SQUARE(-1, 0, 0, 0, 0, 1);
+    TEST_SOLVE_SQUARE(0, -1, 0, 0, 0, 1);
+    TEST_SOLVE_SQUARE(1, 2, -3, -3, 1, 2);
+    TEST_SOLVE_SQUARE(1, 2, -4, -3.2361, 1.2361, 2);
+    TEST_SOLVE_SQUARE(1, 0, -16, -4, 4, 1);
     END_TEST;
     return 0;
 }
