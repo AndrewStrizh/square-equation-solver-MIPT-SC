@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
     if (argc > 2 && !strcmp(argv[1], "tests") && (access(argv[2], F_OK) == 0))
         all_tests(argv[2]);
