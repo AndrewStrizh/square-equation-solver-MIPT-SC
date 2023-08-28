@@ -1,2 +1,2 @@
 # square-equation-solver-MIPT-SC
-simple square equation solver written in c
+A simple and intuitive solver of quadratic equations. Written in C as a task at the MIPT Summer School 2023. The project is launched via the console using a makefile. The documentation for the project is written using Doxygen. To start testing the program, you can use the TEST_SOLVE_SQUARE macro in the file tests.cpp . If you specify the tests <File name> argument when running through make, the erroneous tests will be saved to this file.
