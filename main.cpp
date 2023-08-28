@@ -4,19 +4,22 @@
 #include <string.h>
 #include <math.h>
 #include <stdlib.h>
-#include "main.h"
+#include "ses.h"
 
 
-int main(void)
+int main(int argc, char *argv[])
 {
     printf("Square equation solver\n"
            "# (c) STA, 2023\n\n");
 
-    struct st_params params = {0, 0, 0};
-    struct st_roots roots = {0, 0};
+    if(argc>1 && !strcmp(argv[1], "tests"))
+        all_tests();
+    else
+    {
+        struct st_params params = {0, 0, 0};
+        struct st_roots roots = {0, 0};
 
-    init_params(&params);
-    solver(params, &roots);
-
-    all_tests();
+        init_params(&params);
+        solver(params, &roots);
+    };
 }
